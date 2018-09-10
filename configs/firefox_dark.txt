@@ -1,0 +1,5 @@
+To change the background color of the Firefox homepage and new tabs:
+
+	1) Find the root profile location by visiting "about:profiles"
+	2) Copy "userContent.css" to the "chrome" folder in the root profile
+		- If the "chrome" folder doesn't exist, just create one

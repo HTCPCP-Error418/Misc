@@ -1,0 +1,5 @@
+@-moz-document url("about:home"), url("about:newtab") {
+	.activity-stream {
+		background-color: #696969 !important;
+	}
+}
