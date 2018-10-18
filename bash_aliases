@@ -1,5 +1,0 @@
-alias l='ls -lA --color=auto --group-directories-first --sort=extension'
-alias ls='ls --color=auto --group-directories-first --sort=extension'
-alias please='sudo "$BASH" -c "$(history -p !!)"'
-alias update='sudo apt update && sudo apt full-upgrade -y && sudo apt autoremove -y'
-alias open='/usr/local/bin/open.sh'
