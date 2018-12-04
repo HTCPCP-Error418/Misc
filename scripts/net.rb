@@ -1,6 +1,16 @@
 #!/usr/bin/env ruby
 
 =begin
+	THIS SCRIPT HAS BEEN REPLACED BY SPEED_DAEMON AND IS MOSTLY BEING KEPT AS AN EXAMPLE
+	FOR USING GRUFF TO MAKE GRAPHS.
+
+	Speed_daemon is available at github.com/anonzak/speed_daemon
+=end
+
+
+
+
+=begin
 	This script is designed to utilize the 'speedtest-cli' program to log the current connection
 	properties (ping, upload, download) every 15 minutes outputting the results to a log file and
 	creating a graph.
@@ -16,6 +26,12 @@
 
 	Find Speedtest Server ID:
 		https://www.speedtestserver.com/
+
+	Issues:
+		If there is an error (such as no internet connection), a message will be returned instead of
+		a number. This will probably break converting bps to Mbps in upload and download...
+
+		When trimming the log files, they should be referenced as symbols (add "$")
 =end
 
 #required gems
