@@ -11,12 +11,13 @@ GREEN=$ESC"01;32m"
 YELLOW=$ESC"01;33m"
 
 function usage {
-	echo "usage: $0 [start | stop | restart | status]"
+	echo "usage: $0 [start | stop | restart | status | update]"
 	echo ""
 	echo "	start	- starts the Nessus service"
 	echo "	stop	- stops the Nessus service"
 	echo "	restart	- restarts the Nessus service"
 	echo "	status	- prints the status of the Nessus service"
+	echo "	update	- update Nessus core and plugins"
 	echo ""
 }
 
@@ -29,6 +30,7 @@ function start {
 function stop {
 	echo -e "${YELLOW}[-]${RESET} stopping the Nessus service..."
 	sudo /etc/init.d/nessusd stop &> /dev/null
+	sleep 2
 	echo ""
 }
 
@@ -49,6 +51,11 @@ function status {
 	fi
 }
 
+function update {
+	echo -e "${YELLOW}[-]${RESET} updating Nessus..."
+	sudo /opt/nessus/sbin/nessuscli update --all
+	echo ""
+}
 
 #########################################################
 #################          MAIN         #################
@@ -75,6 +82,10 @@ case "$1" in
 		status
 		;;
 
+	update)
+		stop
+		update
+		;;
 	*)
 		usage
 		exit 1
