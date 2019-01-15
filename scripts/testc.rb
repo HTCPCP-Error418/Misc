@@ -44,6 +44,8 @@ options = {
 	:runopts => "",
 	:outfile => "",
 	:verbose => false,
+	:memcheck => false,			#run with valgrind memcheck tool
+	:memcheck_v => false,		#run with valgrind memcheck tool and --leak-check=yes
 }
 
 parser = OptionParser.new do |opts|
@@ -67,6 +69,12 @@ parser = OptionParser.new do |opts|
 	end
 	opts.on('-o', '--outfile [file_name]', ':	Overwrite default file name with "[file_name]"') do |op|
 		options[:outfile] = op
+	end
+	opts.on('-m', '--memcheck', ':	Run program with Valgrind memcheck tool') do
+		options[:memcheck] = true
+	end
+	opts.on('-M', '--leak-check', ':	Run program with Valgrind memcheck tool and check for memory leaks') do
+		options[:memcheck_v] = true
 	end
 	opts.separator ""
 
@@ -92,7 +100,7 @@ end
 
 #compile program
 def compile(infile, outfile)
-	`gcc -o #{outfile} #{infile}`
+	`gcc -g -o #{outfile} #{infile}`
 
 	if $?.exitstatus == 0
 		puts "[+]	Program compiled successfully.".green
@@ -122,14 +130,29 @@ if options[:verbose]
 	puts "Outfile:  	#{options[:outfile]}".yellow
 	puts "File Path:	#{options[:path]}".yellow
 	puts "Run Opts: 	#{options[:runopts]}".yellow
+	puts "Mem Check: 	#{options[:memcheck]}".yellow
+	puts "Leak Check:	#{options[:memcheck_v]}".yellow
 	puts "Verbose:  	#{options[:verbose]}".yellow
 end
 
+
 compile(options[:infile], options[:outfile])
 
-#run program
+#run program	--	rewrite to just build the command as needed - remove extra if statements
 if options[:runopts].empty?
-	`gnome-terminal -- bash -c "#{options[:outfile]}; bash;"`
+	if options[:memcheck]
+		`gnome-terminal -- bash -c valgrind --tool=memcheck "#{options[:outfile]}; bash;"`
+	elsif options[:memcheck_v]
+		`gnome-terminal -- bash -c valgrind --tool=memcheck --leak-check=yes "#{options[:outfile]}; bash;"`
+	else
+		`gnome-terminal -- bash -c "#{options[:outfile]}; bash;"`
+	end
 else
-	`gnome-terminal -- bash -c "#{options[:outfile]} #{options[:runopts]}; bash;"`
+	if options[:memcheck]
+		`gnome-terminal -- bash -c valgrind --tool=memcheck "#{options[:outfile]} #{options[:runopts]}; bash;"`
+	elsif options[:memcheck_v]
+		`gnome-terminal -- bash -c valgrind --tool=memcheck --leak-check=yes "#{options[:outfile]} #{options[:runopts]}; bash;"`
+	else
+		`gnome-terminal -- bash -c "#{options[:outfile]} #{options[:runopts]}; bash;"`
+	end
 end
