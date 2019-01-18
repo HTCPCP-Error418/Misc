@@ -208,7 +208,7 @@ set tabsize 4
 # set functioncolor yellow
 
 set titlecolor green,black
-set statuscolor green
+set statuscolor green,black
 set keycolor green,black
 set functioncolor green
 
