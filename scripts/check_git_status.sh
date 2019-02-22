@@ -17,8 +17,20 @@
 
 #colors
 ESC="\e["
-RESET=$ESC"39m"
-BLUE=$ESC"34m"
+RESET=$ESC"01;39m"
+RED=$ESC"01;31m"
+BLUE=$ESC"01;34m"
+
+function usage {
+	echo "	Usage: $0 [Top-Level Directory]"
+	exit 0
+}
+
+#if no directory provided, print usage and exit
+if [[ -z "$1" ]]; then
+	echo -e "${RED}Please specify top-level directory to check${RESET}"
+	usage
+fi
 
 TLD="$1"
 for directory in $(ls $TLD); do
